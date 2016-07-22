@@ -1,0 +1,21 @@
+Function Count_String(ByVal strSearch As String, _
+    ByVal strMatch As String, _
+    Optional blnCaseSensitive As Boolean = False, _
+    Optional blnAddWhiteSpace As Boolean = False) As Long
+   
+    Dim i As Long
+   
+    If blnAddWhiteSpace And Len(strMatch) > 1 Then
+        For i = Len(strMatch) - 1 To 1 Step -1
+            strMatch = Left$(strMatch, i) & "\s*" & Mid$(strMatch, i + 1)
+        Next i
+    End If
+   
+    With CreateObject("vbscript.regexp")
+        .ignorecase = Not blnCaseSensitive
+        .Global = True
+        .Pattern = strMatch
+        Count_String = .Execute(strSearch).Count
+    End With
+   
+End Function
